@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillStack - Master Angular Easily</title>
+    <style>
+        /* Basic inline styles for readability - you should move these to a separate CSS file later! */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #d80c0c;
+            /* Example primary color for your brand */
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #0056b3;
+            /* Example secondary color */
+            margin-top: 30px;
+        }
+
+        .intro-box {
+            background: #f9f9f9;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            margin-bottom: 20px;
+        }
+
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #c7254e;
+            white-space: nowrap;
+        }
+
+        .step-list li {
+            margin-bottom: 10px;
+        }
+
+        .step-code {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Welcome to <strong>SkillStack</strong> – Your Pathway to Mastering Angular!</h1>
+        </header>
+
+        <div class="intro-box">
+            <p>Are you ready to dive into the world of modern web development and build dynamic, robust applications?
+                This is the place to be! At <strong>SkillStack</strong>, we believe learning **Angular** should be an
+                easy and rewarding experience.</p>
+            <p>Our website provides a comprehensive, step-by-step guide to Angular, focusing on clarity and practical
+                application. We break down complex Angular concepts into digestible lessons, reinforced with plenty of
+                **coded working examples** that you can immediately apply. Whether you are a beginner or looking to
+                solidify your understanding, our approach is designed to help you quickly become proficient.</p>
+        </div>
+
+        <hr>
+
+        <section id="installation">
+            <h2>Getting Started: Angular Installation and Project Creation</h2>
+            <p>To begin your journey, you need to set up your development environment. Follow these simple steps:</p>
+
+            <ol class="step-list">
+                <li>
+                    <h3>Step 1: Install Node.js and npm</h3>
+                    <p>Angular relies on **Node.js** and its package manager, **npm**.</p>
+                    <ul>
+                        <li>Go to the official <a href="https://nodejs.org/" target="_blank">Node.js website</a> and
+                            download the latest **LTS (Long-Term Support)** version.</li>
+                        <li>Run the installer and follow the default prompts.</li>
+                        <li>Verify the installation in your terminal/command prompt:
+                            <div class="step-code">
+                                <code>node -v</code><br>
+                                <code>npm -v</code>
+                            </div>
+                            (This should display the installed versions.)
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <h3>Step 2: Install the Angular CLI</h3>
+                    <p>The Angular Command Line Interface (**CLI**) is a powerful tool for creating, managing, and
+                        building Angular applications.</p>
+                    <ul>
+                        <li>Open your terminal or command prompt.</li>
+                        <li>Install the CLI globally using npm:
+                            <div class="step-code">
+                                <code>npm install -g @angular/cli</code>
+                            </div>
+                        </li>
+                        <li>Verify the installation:
+                            <div class="step-code">
+                                <code>ng version</code>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <h3>Step 3: Create a New Angular Project</h3>
+                    <p>The Angular CLI makes generating a new project workspace effortless.</p>
+                    <ul>
+                        <li>Navigate to the directory where you want to create your project:
+                            <div class="step-code">
+                                <code>cd [Your desired directory]</code>
+                            </div>
+                        </li>
+                        <li>Run the <code>ng new</code> command, replacing <code>my-angular-app</code> with your chosen
+                            project name:
+                            <div class="step-code">
+                                <code>ng new my-angular-app</code>
+                            </div>
+                        </li>
+                        <li>The CLI will prompt you to answer a few configuration questions (e.g., "Would you like to
+                            add Angular routing?" and "Which stylesheet format would you like to use?"). Select your
+                            preferred options.</li>
+                        <li>The CLI will create the project folder and install all necessary dependencies.</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <h3>Step 4: Run Your Application</h3>
+                    <ul>
+                        <li>Navigate into your new project directory:
+                            <div class="step-code">
+                                <code>cd my-angular-app</code>
+                            </div>
+                        </li>
+                        <li>Start the development server:
+                            <div class="step-code">
+                                <code>ng serve --open</code>
+                            </div>
+                        </li>
+                        <li>The <code>--open</code> (or <code>-o</code>) flag automatically opens your new application
+                            in your browser, typically at <code>http://localhost:4200/</code>. You are now ready to
+                            start coding!</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <hr>
+
+        <section id="creator-intro">
+            <h2>About the Creator</h2>
+            <p>Hello! I'm the creator of this learning resource, dedicated to making Angular accessible to everyone. I
+                created this website under the banner of my company, **SkillStack**, with the mission to build a
+                community where developers can acquire practical, job-ready skills through well-structured tutorials and
+                hands-on examples. Happy coding!</p>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

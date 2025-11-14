@@ -1,0 +1,145 @@
+<div class="mainClass">
+    <div class="topicClass">
+        <h2>Data and Event sharing between Components</h2>
+        <p>In Angular, sharing data and events between components is a common requirement.
+            <br>Depending on the relationship between the components, there are several approaches to achieve this:
+        </p>
+        <!-- ---------------------------------------------------------------------------------------------------- -->
+        <div class="subClass">
+            <h2>1. Parent to Child Communication</h2>
+            <p><strong>Using <code>@Input</code> Decorator:</strong> The parent component passes data to the child
+                component using property binding.
+                <br> Before using <code>@Input</code> import Input in the ts file.
+            </p>
+            <div class="codeExample">
+                <code>
+                    // Child Component <br>
+                    @Input() childData!: string;
+                </code>
+            </div>
+            <div class="codeExample">
+                <code>
+                    &lt;!-- Parent Component --&gt; <br>
+                    &lt;app-child [childData]="parentData"&gt;&lt;/app-child&gt;
+                </code>
+            </div>
+
+            <!-- Practice Example -->
+            <div class="examples">
+                <app-cds-child [dataFromParent]="parentData"></app-cds-child>
+                <!-- <router-outlet></router-outlet> -->
+            </div>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------------- -->
+        <div class="subClass">
+            <h2>2. Child to Parent Communication</h2>
+            <p><strong>Using <code>@Output</code> and EventEmitter.</strong> The child component emits an event, and the
+                parent listen to it.</p>
+            <div class="codeExample">
+                <code>
+                    // Child Component <br>
+                    @Output() notifyParent = new EventEmitter&lt;string&gt;(); <br>
+                    sendData() &#123;<br>
+                    this.notifyParent.emit('Data from Child'); <br>
+                    &#125;
+                </code>
+            </div>
+            <div class="codeExample">
+                <code>
+                    &lt;! -- Parent Component --&gt; <br>
+                    &lt;app-child (notifyParent)="handleData($event)"&gt;&lt;/app-child&gt;
+                </code>
+            </div>
+            <div class="examples">
+                <p *ngIf="childDataReceived">
+                    Received Up: {{ childDataReceived }}
+                </p>
+                <app-cds-child [dataFromParent]="parentData"
+                    (dataToParent)="receiveDataFromChild($event)"></app-cds-child>
+            </div>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------------- -->
+        <div class="subClass">
+            <h2>3. Sibling Components Communication</h2>
+            <p><strong>Using a Shared Service:</strong> A service acts as a mediator to share data between sibling
+                components.</p>
+            <div class="codeExample">
+                <code>
+                        // Shared Service <br>
+                        @Injectable(&#123;provideIn: 'root'&#125;) <br>
+                        export class DataService &#123;
+                        private dataSubject = new BehaviorSubject&lt;string&gt;('DefaultData'); <br>
+                        data$ = this.dataSubject.asObservable(); <br>
+                        <br>
+                        updateData(newData: string) &#123; <br>
+                        this.dataSubject.next(newData); <br>
+                        &#125;<br>
+                        &#125;
+                    </code>
+            </div>
+            <div class="codeExample">
+                <code>
+                    // Component A <br>
+                    constructor(private dataService: DataService) &#123;&#125; <br>
+                    sendData() &#123; <br>
+                    this.dataService.updateData('Data from Component A'); <br>
+                    &#125;
+                </code>
+            </div>
+            <div class="codeExample">
+                <code>
+                    // Component B <br>
+                    constructor(private dataService: DataService) &#123;&#125; <br>
+                    ngOnInit() &#123; <br>
+                    this.dataService.data$.subscribe(data => &#123; <br>
+                    console.log(data); <br>
+                    &#125;);
+                    &#125;
+                </code>
+            </div>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------------- -->
+        <div class="subClass">
+            <h2>4. Using Local References and ViewChild</h2>
+            <p><strong>Accessing Child Component Methods or Properties:</strong> The parent can directly interact with
+                the child component using <code>@ViewChild</code>.
+            </p>
+            <div class="codeExample">
+                <code>
+                    // Child Component <br>
+                    export class ChildComponent &#123; <br>
+                    childMethod() &#123; <br>
+                    console.log('Child Method Called'); <br>
+                    &#125; <br>
+                    &#125;
+
+                </code>
+            </div>
+            <div class="codeExample">
+                <code>
+                    // Parent Component <br>
+                    @ViewChild(ChildComponent) childComponent!: ChildComponent; <br>
+                    callChildMethod() &#123; <br>
+                    this.childComponent.childMethod(); <br>
+                    &#125;
+                </code>
+            </div>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------------- -->
+        <div class="subClass">
+            <h2>5. Using Angular Router</h2>
+            <p><strong>Passing Data via Route Parameters or State:</strong> Components can share data through route
+                parameters or navigation state.</p>
+            <div class="codeExample">
+                <code>
+                    // Passing Data <br>
+                    this.router.navigate(['/target'], &#123; state: &#123; data: 'Shared Data' &#125; &#123;); <br>
+                    <br>
+                    // Receiving Data <br>
+                    const data = this.router.getCurrentNavigation()?.extras.state?.['data'];
+                </code>
+            </div>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------------- -->
+    </div>
+</div>

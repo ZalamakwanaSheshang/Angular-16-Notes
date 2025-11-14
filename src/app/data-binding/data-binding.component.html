@@ -1,0 +1,83 @@
+<div class="dataBinding">
+    <h1>Data Binding</h1>
+    <p id="description">
+        Data binding in Angular is a powerful feature that allows you to synchronize data between the component and the
+        view. This ensures that any changes in the component's state are automatically reflected in the view and vice
+        versa. Angular provides several types of data binding, each serving different purposes and use cases.
+    </p>
+    <div id="bindingTypes">
+        <h2>Types of Data Binding</h2>
+        <div id="oneWay">
+            <h3>One-Way Binding</h3>
+            <p>One-way binding allows data to flow in a single direction, either from the component to the view or from
+                the view to the component.</p>
+            <div id="compToView">
+                <h4>From Component to View</h4>
+                This type of binding is achieved using Interpolation and Property Binding.
+                <div id="interpolation">
+                    Interpolation:
+                    <br> It allows you to embed expressions within string literals in the view. Angular
+                    evaluates
+                    these expressions and updates the view accordingly.
+                    <br> For example: <code>&lt;h1&gt; &#123; &#123;title&#125; &#125; &lt;/h1&gt;</code>
+                    <hr>
+                    This is an example of interpolation where my name is comming from .ts file.
+                    <br>And my name is {{name}}.
+                </div>
+                <div id="ternaryOperator">
+                    This is an example of ternary operator which works as single line if-else statement.
+                    <br> Let A = 10 and B = 20.
+                    <br> Who is grater A or B?
+                    <br> Answer: {{answer}}
+                </div>
+                <div id="propertyBinding">
+                    Property Binding:
+                    <br>It binds a property of an HTML element to a property in the component. This is
+                    done
+                    using square brackets [].
+                    <br> For example: <code>&lt;img [src]=&quot;imageUrl&quot;&gt;</code>
+                    <br>
+                    This is an example of Property Binding
+                    <input #fullName type="text" [placeholder]="message">
+                </div>
+            </div>
+            <div id="viewToComp">
+                <h4>From View to Component</h4>
+                This type of binding is achieved using Event Binding.
+                <div id="eventBinding">
+                    Event Binding:
+                    <br>It binds an event in the view to a method in the component. This is done using
+                    parentheses ().
+                    <br>For example: <code>&lt;button (click)=&quot;onSave()&quot;&gt;Save&lt;/button&gt;</code>
+                    <br> This is an example of Event Binding.
+                    <button (click)="gfg(fullName.value)">Event Binding</button>
+                    <p id="eventBindingOutput"></p>
+                </div>
+            </div>
+        </div>
+        <div id="twoWay">
+            <h3>Two-Way Binding</h3>
+            <p>Two-way binding allows data to flow in both directions, from the component to the view and from the view
+                to the component. This is particularly useful in forms where user input needs to be reflected in the
+                component and vice versa.</p>
+            <div id="propEveBinding">
+                Two-Way Binding:
+                <br>It is achieved using the [(ngModel)] directive.
+                <br>For example: &lt;input [(ngModel)]=&quot;name&quot;&gt;
+                <div id="twoWayExample">
+                    <p>
+                        <label for="colorName">Enter the Color name: </label><input type="text" [(ngModel)]="color"
+                            id="colorName" placeholder="E.g., Red, Green, Blue">
+                        <br>
+                        You Entered: <b [style.color]="color">{{color}}</b>
+                    </p>
+                </div>
+                <div id="counterExample">
+                    <button (click)="increase()">+</button>
+                    <span>{{count}}</span>
+                    <button (click)="decrese()">-</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

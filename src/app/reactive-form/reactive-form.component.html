@@ -1,0 +1,396 @@
+<div class="mainClass">
+    <!-- style="margin-bottom:0"
+    style="margin-top:0.2rem" -->
+    <h2>Reactive Forms</h2>
+    <p>Reactive forms in Angular offer a model-driven approach to managing form inputs,
+        providing greater control and
+        flexibility in handling user inputs and validations.</p>
+    <ul>
+        <li>Build a tree of FormGroup/FormControl in code.</li>
+        <li>Bind the template with [formGroup] and formControlName.</li>
+        <li>Great for complex validation, conditional fields, and dynamic forms.</li>
+        <li>Create controls with FormBuilder and Validators.</li>
+    </ul>
+
+    <h3>Overview of Reactive Forms:</h3>
+    <p>
+        Reactive forms are a powerful way to manage form inputs, changes, and validation
+        states using an explicit and immutable approach. This means every state change in a form returns a new state,
+        preserving the model's integrity. Reactive forms are built around observable streams, making it easy to handle
+        dynamic forms where you can add or remove controls at runtime.
+    </p>
+
+    <h3>Core Components</h3>
+    <ol>
+        <li>FormGroup: A collection of FormControl instances, allowing you to group related controls together, such as
+            fields in a form.</li>
+        <li>FormControl: Represents a single input field and manages its value and validation status.</li>
+        <li>FormArray: An array that manages multiple instances of FormControl or FormGroup, enabling dynamic forms
+            where users can add or remove controls easily.</li>
+    </ol>
+    <div class="topicClass">
+        <h2>Angular Reactive Forms: Using FormGroup</h2>
+        <div>
+            <h3>Step 1: Import ReactiveFormsModule (One-Time Import)</h3>
+            <p>Ensure your main module file (usually <code>app.module.ts</code>) imports the
+                <code>ReactiveFormsModule</code>. This
+                is what enables the <code>[formGroup]</code> directive.
+            </p>
+
+            <h3><code>app.module.ts</code></h3>
+            <div class="codeExample">
+                <samp><code>
+                    // app.module.ts <br>
+                    import &#123; NgModule &#125; from '@angular/core'; <br>
+                    import &#123; BrowserModule &#125; from '@angular/platform-browser'; <br>
+                    import &#123; ReactiveFormsModule &#125; from '@angular/forms'; // &lt;-- 1. Import this! <br>
+                     <br>
+                    import &#123; AppComponent &#125; from './app.component'; <br>
+                     <br>
+                    @NgModule(&#123; <br>
+                      declarations: [AppComponent], <br>
+                      imports: [ <br>
+                        BrowserModule, <br>
+                        ReactiveFormsModule // &lt;-- 2. Add it to imports array! <br>
+                      ], <br>
+                      providers: [], <br>
+                      bootstrap: [AppComponent] <br>
+                    &#125;) <br>
+                    export class AppModule &#123; &#125; <br>
+                </code></samp>
+            </div>
+        </div>
+        <div>
+            <h3>Step 2: Building the Form or Component Logic (<code>.ts</code> File)</h3>
+            <p>In your component, you define the form structure and apply validators using the
+                <code>Validators</code> class.
+            </p>
+            <h3><code>my-form.component.ts</code></h3>
+            <div class="codeExample">
+                <samp><code>
+                    // my-form.component.ts <br>
+                    import &#123; Component, OnInit &#125; from '@angular/core'; <br>
+                    import &#123; FormGroup, FormControl, Validators &#125; from '@angular/forms'; <br>
+                     <br>
+                    @Component(&#123; <br>
+                      selector: 'app-my-form', <br>
+                      templateUrl: './my-form.component.html', <br>
+                    &#125;) <br>
+                    export class MyFormComponent implements OnInit &#123; <br>
+                      // 1. Declare the FormGroup <br>
+                      myForm!: FormGroup;  <br>
+                     <br>
+                      ngOnInit(): void &#123; <br>
+                        // 2. Initialize the FormGroup and its FormControls <br>
+                        this.myForm = new FormGroup(&#123; <br>
+                           <br>
+                          // Control 1: Single Validator (Required) <br>
+                          username: new FormControl('', Validators.required),  <br>
+                     <br>
+                          // Control 2: Multiple Validators (Required + Min Length of 6) <br>
+                          password: new FormControl('', [ <br>
+                            Validators.required, <br>
+                            Validators.minLength(6) <br>
+                          ]), <br>
+                     <br>
+                          // Control 3: Multiple Validators (Required + Email Format) <br>
+                          email: new FormControl('', [ <br>
+                            Validators.required,  <br>
+                            Validators.email <br>
+                          ]), <br>
+                        &#125;); <br>
+                      &#125; <br>
+                      
+                      // 3. (Optional but Recommended) Convenience Getter to simplify template code <br>
+                      get passwordControl() &#123; <br>
+                        return this.myForm.get('password'); <br>
+                      &#125; <br>
+                     <br>
+                      onSubmit(): void &#123; <br>
+                        if (this.myForm.valid) &#123; <br>
+                          console.log('Form data:', this.myForm.value); <br>
+                        &#125; else &#123; <br>
+                          console.log('Form is invalid. Please check fields.'); <br>
+                        &#125; <br>
+                      &#125; <br>
+                    &#125; <br>
+                </code></samp>
+
+            </div>
+        </div>
+        <div>
+            <h2>Step 3: Template Binding & Validation Messages (<code>.html</code> File)</h2> <br>
+            <p>You use two key concepts: <strong>Binding</strong> (<code>[formGroup]</code> and
+                <code>formControlName</code>) and
+                <strong>Validation Check</strong> (<code>*ngIf</code> to check for <code>control.invalid</code> AND
+                <code>control.touched</code>).
+            </p>
+
+            <h3><code>my-form.component.html</code></h3>
+            <div class="codeExample">
+                <samp><code>
+                &lt;form [formGroup]="myForm" (ngSubmit)="onSubmit()"&gt; <br>
+                     <br>
+                    &lt;!-- USERNAME FIELD --&gt; <br>
+                    &lt;div&gt; <br>
+                        &lt;label for="username"&gt;Username&lt;/label&gt; <br>
+                        &lt;input id="username" type="text" formControlName="username"&gt; <br>
+                         <br>
+                        &lt;!-- Check for validation error: invalid AND user touched the field --&gt; <br>
+                        &lt;div *ngIf="myForm.get('username')?.invalid && myForm.get('username')?.touched"&gt; <br>
+                             <br>
+                            &lt;!-- Check for the specific error key: 'required' --&gt; <br>
+                            &lt;p class="error" *ngIf="myForm.get('username')?.errors?.['required']"&gt; <br>
+                                Username is required. <br>
+                            &lt;/p&gt; <br>
+                        &lt;/div&gt; <br>
+                    &lt;/div&gt; <br>
+                 <br>
+                    &lt;!-- PASSWORD FIELD (Using the convenience getter) --&gt; <br>
+                    &lt;div&gt; <br>
+                        &lt;label for="password"&gt;Password&lt;/label&gt; <br>
+                        &lt;input id="password" type="password" formControlName="password"&gt; <br>
+                 <br>
+                        &lt;div *ngIf="passwordControl?.invalid && passwordControl?.touched"&gt; <br>
+                             <br>
+                            &lt;p class="error" *ngIf="passwordControl?.errors?.['required']"&gt; <br>
+                                Password is required. <br>
+                            &lt;/p&gt; <br>
+                             <br>
+                            &lt;!-- Check for the specific error key: 'minlength' --&gt; <br>
+                            &lt;p class="error" *ngIf="passwordControl?.errors?.['minlength']"&gt; <br>
+                                Password must be at least 6 characters. (Currently &#123; &#123; passwordControl?.errors?.['minlength'].actualLength &#125; &#125;) <br>
+                            &lt;/p&gt; <br>
+                        &lt;/div&gt; <br>
+                    &lt;/div&gt; <br>
+                 <br>
+                    &lt;!-- SUBMIT BUTTON --&gt; <br>
+                    &lt;!-- The button is disabled if the entire FormGroup is invalid --&gt; <br>
+                    &lt;button type="submit" [disabled]="myForm.invalid"&gt; <br>
+                        Create User <br>
+                    &lt;/button&gt; <br>
+                &lt;/form&gt; <br>
+                 <br>
+                &lt;style&gt; <br>
+                  .error &#123; color: red; font-size: 0.8em; &#125; <br>
+                &lt;/style&gt; <br>
+                </code></samp>
+            </div>
+        </div>
+        <!-- <div>
+            Handling Submission: Implement the method to process submitted form data in your component.
+            <div class="codeExample">
+                <code>
+                        onSubmit() &#123;
+                        console.log(this.myForm.value); // Outputs the form data
+                        &#125;
+                    </code>
+            </div>
+        </div> -->
+        <!-- ---------------------------------------------------------------------------------------------- -->
+        <!-- ----------------------------------- Form Group example ------------------------------------- -->
+        <div class="examples">
+            <h3>Example of Reactive Form using Form Group.</h3>
+            <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                <div>
+                    <input formControlName="name" placeholder="Name">
+                    <div
+                        *ngIf="myForm.get('name')?.invalid && (myForm.get('name')?.dirty||myForm.get('name')?.touched)">
+                        <span style="color: red;" *ngIf="myForm.get('name')?.errors?.['required']">Name is required
+                            feild.</span>
+                    </div>
+                </div>
+                <div>
+                    <input formControlName="email" placeholder="Email">
+                    <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)">
+                        <span style="color: red;" *ngIf="emailControl?.errors?.['required']">Email is required
+                            feild.</span>
+                    </div>
+                </div>
+                <button type="submit" [disabled]="myForm.invalid">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ---------------------------- Forum Builder ---------------------------------------- -->
+    <div class="topicClass">
+        <h2>Angular Reactive Forms: Using FormBuilder</h2>
+        <p>
+            The Angular FormBuilder service is a helper class that provides a simpler, more concise way to create
+            instances of FormControl, FormGroup, and FormArray for reactive forms. It helps reduce the boilerplate code
+            required when manually instantiating these classes.
+        </p>
+        <h3>Steps for using FormBuilder</h3>
+        <div>
+            <h3>Setp 1: Import ReactiveFormsModule:</h3>
+            <p>Ensure that ReactiveFormsModule is imported in your Angular module (usually app.module.ts or a feature
+                module) to enable reactive forms and the FormBuilder service.</p>
+
+        </div>
+        <div>
+            <h3>Step 2: Import and Inject FormBuilder</h3>
+            <ul>
+                <li>Import FormBuilder from @angular/forms in your component.</li>
+                <li>Inject it into your component's constructor, typically aliased as fb.</li>
+            </ul>
+            <div class="codeExample">
+                <h3>TypeScript Code</h3>
+                <code>
+                    import &#123; Component &#125; from '@angular/core'; <br>
+                    import &#123; FormBuilder, FormGroup, Validators &#125; from '@angular/forms'; // Import FormBuilder and related classes <br>
+                    <br>
+                    @Component(&#123; <br>
+                    // ... component metadata <br>
+                    &#125;) <br>
+                    export class MyFormComponent &#123; <br>
+                    myForm!: FormGroup; <br>
+                    <br>
+                    // Inject FormBuilder in the constructor <br>
+                    constructor(private fb: FormBuilder) &#123;&#125; <br>
+                    <br>
+                    ngOnInit(): void &#123; <br>
+                    this.myForm = this.fb.group(&#123; <br>
+                    // ... form controls definition <br>
+                    &#125;); <br>
+                    &#125; <br>
+                    &#125; <br>
+                </code>
+            </div>
+        </div>
+        <div>
+            <h3>Step 3: Define the Form Model using fb.group()</h3>
+            <ul>
+                <li>Use the group() method to create a FormGroup. This method accepts an object where the keys are the
+                    names of the form
+                    controls.</li>
+                <li>
+                    The value for each key is an array that can contain up to three items:
+                    <ol>
+                        <li>Initial Value: The control's default value.</li>
+                        <li>Synchronous Validators: A single validator function or an array of validator functions
+                            (e.g., Validators.required,
+                            Validators.minLength(5)).</li>
+                        <li>Asynchronous Validators (Optional): A single async validator or an array of async validator
+                            functions.</li>
+                    </ol>
+                </li>
+            </ul>
+            <div class="codeExample">
+                <h3>TypeScript Code</h3>
+                <code>
+                    this.myForm = this.fb.group(&#123; <br>
+                    firstName: ['', Validators.required], // Initial value: '', Validator: required <br>
+                    lastName: [''], // Initial value: '', No validator <br>
+                    email: ['', [Validators.required, Validators.email]], // Multiple sync validators <br>
+                    address: this.fb.group(&#123; // Nested FormGroup <br>
+                    street: [''], <br>
+                    city: [''] <br>
+                    &#125;) <br>
+                    &#125;);
+                </code>
+            </div>
+        </div>
+        <div>
+            <h3>Step 4: Bind the Form to the Template</h3>
+            <ul>
+                <li>In your HTML template, bind the FormGroup to the &lt;form&gt; element using the [formGroup]
+                    directive.</li>
+                <li>Bind individual controls using the formControlName directive.</li>
+            </ul>
+            <div class="codeExample">
+                <code>
+                    &lt;form [formGroup]="myForm" (ngSubmit)="onSubmit()"&gt; <br>
+                        &lt;div&gt; <br>
+                            &lt;label&gt;First Name:&lt;/label&gt; <br>
+                            &lt;input type="text" formControlName="firstName"&gt; <br>
+                        &lt;/div&gt; <br>
+                        &lt;div formGroupName="address"&gt; <br>
+                            &lt;h3>Address&lt;/h3&gt; <br>
+                            &lt;label>Street:&lt;/label&gt; <br>
+                            &lt;input type="text" formControlName="street"&gt; <br>
+                        &lt;/div&gt; <br>
+                    <br>
+                        &lt;button type="submit" [disabled]="myForm.invalid">Submit&lt;/button&gt; <br>
+                    &lt;/form&gt; <br>
+                </code>
+            </div>
+        </div>
+        <div>
+            <h3>Step 5: Handle Form Submission</h3>
+            <p>Access the form data using this.myForm.value in your component's onSubmit() method.</p>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------------- -->
+        <!-- ----------------------------------- Form builder example ------------------------------------- -->
+        <div class="examples">
+            <h3>Example of Reactive Form using Form Builder</h3>
+            <form [formGroup]="builderForm" (ngSubmit)="onSubmit()">
+                <div>
+                    <label for="firstName">First Name:</label>
+                    <input type="text" name="firstName" id="firstName" formControlName="firstName">
+
+                    <div
+                        *ngIf="builderForm.get('firstName') && builderForm.get('firstName')?.invalid && (builderForm.get('firstName')?.dirty|| builderForm.get('firstName')?.touched)">
+                        <p style="color: red;" *ngIf="builderForm.get('firstName')?.errors?.['required']">First Name is
+                            required feild</p>
+                    </div>
+                </div>
+                <div>
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" name="lastName" id="lastName" formControlName="lastName">
+                </div>
+                <div>
+                    <label for=".email">Email:</label>
+                    <input type="email" name="email" id="email" formControlName="email">
+
+                    <div
+                        *ngIf="builderForm.get('email')?.invalid && (builderForm.get('email')?.dirty || builderForm.get('email')?.touched)">
+                        <p style="color: red;" *ngIf="builderForm.get('email')?.errors?.['required']">Email is required
+                            feild</p>
+                    </div>
+                </div>
+                <div>
+                    <label for="lastName">Age:</label>
+                    <input type="number" name="age" id="age" formControlName="age">
+
+                    <div
+                        *ngIf="builderForm.get('age')?.invalid && (builderForm.get('age')?.dirty || builderForm.get('age')?.touched)">
+                        <p style="color: red;" *ngIf="builderForm.get('age')?.errors?.['required']">Age is required
+                            feild.</p>
+                        <p style="color: red;" *ngIf="builderForm.get('age')?.errors?.['min']">Minimum Age is 18.</p>
+                        <p style="color: red;" *ngIf="builderForm.get('age')?.errors?.['max']">Maximum Age is 50.</p>
+                    </div>
+                </div>
+
+                <button type="submit" [disabled]="builderForm.invalid">Submit</button>
+            </form>
+        </div>
+
+    </div>
+    <!-- --------------------------- Validation ------------------------------------------- -->
+    <div class="topicClass">
+        <h3>Validation in Reactive Forms</h3>
+        <p>
+            Reactive forms provide built-in validators, allowing you to enforce rules on user inputs. You can use
+            standard validators such as Validators.required and also create custom validation functions.
+        </p>
+
+        <h3>Key Advantages of Reactive Forms</h3>
+        <ul>
+            <li>Explicit Data Flow: Provides more control over form state and validation logic directly within the
+                component file rather than in the template.</li>
+            <li>Dynamic Forms: Easily add or remove controls at runtime, which is beneficial for scenarios needing
+                user-defined input fields (e.g., adding multiple addresses).</li>
+            <li>Testing: Easier to test due to clear separation of data structure and UI, which helps ensure a
+                predictable state of form data during testing.</li>
+        </ul>
+
+        <h3> Comparison with Template-Driven Forms</h3>
+        <p>
+            While template-driven forms rely on directives and manage state in templates, reactive forms are more
+            suitable for complex applications due to their programmatic control. Reactive forms also provide a more
+            stable approach to implementing form validation and managing dynamic data inputs.
+        </p>
+    </div>
+
+
+</div>

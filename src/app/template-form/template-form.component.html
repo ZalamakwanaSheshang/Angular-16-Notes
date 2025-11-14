@@ -1,0 +1,142 @@
+<div class="mainClass">
+    <div class="topicClass">
+        <h2>Template-Driven Forms</h2>
+        <p>Template-driven forms are the simpler way to build forms in Angular. The form logic (like validation rules
+            and control definitions) is primarily handled in the template using Angular directives. They are suitable
+            for simple forms (e.g., login forms) and rely heavily on two-way data binding with the
+            <code>[(ngModel)]</code> syntax.
+
+            <br>
+            You must import the FormsModule in your Angular module (e.g., app.module.ts) to use template-driven forms.
+        </p>
+
+        <h3>Key Concepts:</h3>
+        <ul>
+            <li><strong><code>ngModel</code> Directive:</strong> Creates an instance of <code>FormControl</code>
+                internally and binds it to a form element. It's essential for two-way data binding.</li>
+            <li><strong><code>name</code> Attribute:</strong> Required on all form controls using <code>ngModel</code>
+                to register the control with the parent <code>NgForm</code> and provide the key for the form value
+                object.
+            </li>
+            <li><strong><code>NgForm</code> Directive:</strong> Automatically attached to the <code>&lt;form&gt;</code>
+                tag by the <code>FormsModule</code>. It manages all form controls within the form, tracks the overall
+                form state (e.g., <code>valid</code>, <code>invalid</code>, <code>dirty</code>), and provides the form
+                value.
+            </li>
+        </ul>
+        <div class="examples">
+            <h3 style="margin: 0;">Example:</h3>
+            Create a simple profile form with two required fields: Username (minimum 5 characters) and Age (must be a
+            number and required).
+
+            <form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
+                <div>
+                    <label for="username">USername:</label>
+                    <input type="text" id="username" name="username" [(ngModel)]="data.name" required minlength="5"
+                        #usernameModel="ngModel">
+
+                    <div *ngIf="usernameModel.invalid && (usernameModel.dirty || usernameModel.touched)">
+                        <p style="color: red;" *ngIf="usernameModel.errors?.['required']">Username is required.</p>
+                        <p style="color: red;" *ngIf="usernameModel.errors?.['minlength']">Minimum 5 characters
+                            required.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" [(ngModel)]="data.age" required min="18" max="60"
+                        #ageModel="ngModel">
+
+                    <div *ngIf="ageModel.invalid && (ageModel.dirty || ageModel.touched)">
+                        <p style="color:red;" *ngIf="ageModel.errors?.['required']">Age is required.</p>
+                        <p style="color:red;" *ngIf="ageModel.errors?.['min']">Minimum age is 18.</p>
+                        <p style="color:red;" *ngIf="ageModel.errors?.['max']">Maximum age is 60.</p>
+                    </div>
+                </div>
+                <div>
+                    <input type="checkbox" [(ngModel)]="data.agree" name="agree" required #Agree="ngModel">
+                    <label for="agree">Accept Terms</label>
+
+                    <div *ngIf="Agree.invalid && (Agree.dirty || Agree.touched)">
+                        <p style="color:red;" *ngIf="Agree.errors?.['required']">You must accept terms.</p>
+                    </div>
+                </div>
+
+                <button type="submit" [disabled]="profileForm.invalid">Save Profile</button>
+            </form>
+        </div>
+        <!-- ------------------- Practice Question ------------------- -->
+        <div class="examples">
+            <h3 style="margin: 0;">Practice Question:</h3>
+            <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+
+                <div>
+                    <label for="userName">Name:</label>
+                    <input type="text" id="userName" name="userName" ngModel required minlength="3"
+                        #userNameModel="ngModel">
+
+                    <div *ngIf="userNameModel.invalid && (userNameModel.dirty || usernameModel.touched)">
+                        <p style="color:red;" *ngIf="userNameModel.errors?.['required']">Username is requires.</p>
+                        <p style="color:red;" *ngIf="userNameModel.errors?.['minlength']">Minimum 3 characters required.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" ngModel required #userEmail="ngModel">
+
+                    <div *ngIf="userEmail.invalid && (userEmail.dirty || userEmail.touched)">
+                        <p style="color:red;" *ngIf="userEmail.errors?.['required']">Email id is required.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="text" id="password" name="password" ngModel required minlength="6" #userPass="ngModel">
+
+                    <div *ngIf="userPass.invalid && (userPass.dirty || userPass.touched)">
+                        <p style="color:red;" *ngIf="userPass.errors?.['required']">Password is Required.</p>
+                        <p style="color:red;" *ngIf="userPass.errors?.['minlength']">Minimum 6 characters required.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" ngModel required min="18" max="60" #userAge="ngModel">
+
+                    <div *ngIf="userAge.invalid && (userAge.dirty || userAge.touched)">
+                        <p style="color:red;" *ngIf="userAge.errors?.['required']">Age is required.</p>
+                        <p style="color:red;" *ngIf="userAge.errors?.['min']">Minimum age is 18.</p>
+                        <p style="color:red;" *ngIf="userAge.errors?.['max']">Maximum age is 60.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="gender">Gender:</label>
+                    <select name="gender" id="gender" ngModel required #userGender="ngModel">
+                        <option value="" selected disabled></option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+
+                    <div *ngIf="userGender.invalid && (userGender.dirty || userGender.touched)">
+                        <p style="color:red;" *ngIf="userGender.errors?.['required']">Please select gender.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <input type="checkbox" ngModel name="userAgree" required #userAgree="ngModel">
+                    <label for="agree">Accept Terms</label>
+
+                    <div *ngIf="userAgree.pristine">
+                        <p style="color:red;" *ngIf="userAgree.errors?.['required']">You must accept terms.</p>
+                    </div>
+                </div>
+                <button type="submit" [disabled]="userForm.invalid">Submit</button>
+                <button type="reset" (click)="userForm.resetForm()">Referesh</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,8 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
-body {
-  margin: 0;
-}
-
 /* ------------------ Common CSS ---------------------------- */
 /* *{
   font-family: cascadia mono;
@@ -27,7 +22,7 @@ li {
 .topicClass {
   border: 1px solid black;
   box-shadow: 0px 0px 10px black;
-  margin-top: 1rem;
+  margin-top: 2rem;
   padding: 1rem;
   border-radius: 5px;
   width: 100%;
@@ -49,17 +44,21 @@ th {
   box-shadow: 0 0 10px black;
   margin-top: 1rem;
   padding: 1rem;
+  width: 100%;
 }
 
 .examples {
   border: 1px solid black;
   border-radius: 5px;
   box-shadow: 5px 5px 10px black;
-  margin: 1rem;
+  margin: 1rem 0;
   padding: 1rem;
   /* background-color: plum; */
   background-color: rosybrown;
+  width: 90%;
 }
+
+/* ---------------------------------------------------------------------------------------------------------------------------- */
 
 .codeExample {
   background-color: rgb(59, 57, 57);
@@ -68,18 +67,4 @@ th {
   padding: 1rem;
   border-radius: 5px;
   width: 90%;
-}
-/* ----------------------- Footer --------------------------- */
-.footer {
-  margin-top: 1rem;
-}
-
-.footer a {
-  text-align: center;
-  padding: 0.3rem 0.5rem;
-  border: 1px solid black;
-  border-radius: 25px;
-  box-shadow: 0px 0px 5px black;
-  width: 10%;
-  text-decoration: none;
 }

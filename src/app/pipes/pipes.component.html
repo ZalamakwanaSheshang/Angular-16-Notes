@@ -1,0 +1,54 @@
+<div class="mainClass">
+    <h1>Pipes in Angular</h1>
+    <p>A Pipe in Angular is a simple function you can use in component templates to transform, format, or filter data
+        for display without changing the component class itself. They are used to improve user experience by presenting
+        data in a readable format.
+        <br><br>
+        Think of a pipe as a simple filter that takes an input value, processes it, and returns a new, transformed
+        value. The syntax uses the vertical bar (|).
+    </p>
+    <h2>Types of Pipes</h2>
+    <p>Angular primarily has two categories of pipes: Built-in Pipes and Custom Pipes. Within the Built-in category,
+        pipes can be classified as Pure or Impure.</p>
+    <table class="table">
+        <tr>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Built-in Pipes</td>
+            <td>Pipes provided by Angular framework (e.g., DatePipe, CurrencyPipe).</td>
+        </tr>
+        <tr>
+            <td>Custom Pipes</td>
+            <td>Pipes created by the developer to handle specific application logic.</td>
+        </tr>
+    </table>
+
+    <!-- ------------------------------------------------------------------------------------------- -->
+    <div class="topicClass">
+        <h2>1. Built-in Pipes (Examples)</h2>
+        <p>These pipes are part of the Angular framework and cover common data formatting needs.</p>
+        <!-- ------------------------------- -->
+        <div class="subClass">
+            <h3>DatePipe</h3>
+            <p>The DatePipe formats a date according to locale rules and specific formats.</p>
+
+            <div class="codeExample">
+                <code>
+                    // Component (.ts) <br>
+                    today = new Date(); // e.g., Thu Oct 16 2025 22:29:14 GMT+0530
+                </code>
+            </div>
+            <div class="codeExample">
+                <code>
+                    &lt;!-- Html Code --&gt; <br>
+                    &lt;p&gt;Default: &#123; &#123; today | date &#125; &#125; &lt;/p&gt; <br>
+                    &lt;p&gt;Full Date: &#123; &#123; today | date:'fullDate' &#125; &#125; &lt;/p&gt; <br>
+                </code>
+            </div>
+        </div>
+        <!-- -------------------------------- -->
+
+    </div>
+</div>

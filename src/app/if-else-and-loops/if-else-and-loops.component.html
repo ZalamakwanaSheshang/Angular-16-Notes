@@ -1,0 +1,281 @@
+<div class="mainClass">
+    <!------------------- *ngIf ------------------------->
+    <div class="ngIfClass topicClass">
+        <div id="ngIfId">
+            <h2 style="margin: 0;">NgIf Directive</h2>
+            <p>
+                A structural directive that conditionally includes a template based on the value of an expression
+                coerced to Boolean. When the expression evaluates to true, Angular renders the template provided in a
+                then clause, and when false or null, Angular renders the template provided in an optional else clause.
+                The default template for the else clause is blank.
+                <br>
+                <strong>Selectors:</strong> [ngIf]
+            </p>
+            <div>
+                <strong>Properties</strong>
+                <table class="table">
+                    <thead></thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ngIf:</strong> T</td>
+                            <td>The Boolean expression to evaluate as the condition for showing a template.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ngIfThen:</strong> <code>TemplateRef &lt;NgIfContext&lt;T&gt;&gt;</code></td>
+                            <td>A template to show if the condition expression evaluates to true.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ngIfElse:</strong> <code>TemplateRef &lt;NgIfContext&lt;T&gt;&gt;</code></td>
+                            <td>A template to show if the condition expression evaluates to false.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="ngif-directive-guide" class="subClass">
+            <h2>Angular <code>*ngIf</code> Directive Overview</h2>
+            <p>
+                A shorthand form of the directive <code>*ngIf="condition"</code> is generally used, provided as an
+                attribute
+                of the anchor element for the inserted template. Angular expands this into a more explicit version, in
+                which
+                the anchor element is contained in an
+                <code>&lt;ng-template&gt;</code> element.
+            </p>
+
+            <!------------------- Shorthand syntax: *ngIf ------------------------->
+            <div class="examples">
+                <h3>Simple Form with Shorthand Syntax:</h3>
+                <code>&lt;div *ngIf="condition"&gt;Content to render when condition is true.&lt;/div&gt;</code>
+
+                <br>
+                *ngIf Example:
+                <input type="text" [(ngModel)]="condition">
+                <div *ngIf="condition">This is {{ condition }}</div>
+            </div>
+            <!------------------- Expanded syntax: <ng-template [ngIf]="condition"><div>content</div></ng-template> ------------------------->
+            <div class="examples">
+                <h3>Simple Form with Expanded Syntax:</h3>
+                <code>&lt;ng-template [ngIf]="condition"&gt;&lt;div&gt;Content to render when condition is true.&lt;/div&gt;&lt;/ng-template&gt;</code>
+
+                <br>
+                [ngIf] Example: <input type="number" name="number" id="numberInput" [(ngModel)]="ngIfnumber">
+                <ng-template [ngIf]="ngIfnumber%2==0">
+                    <div>The number is Even!</div>
+                </ng-template>
+            </div>
+            <!------------------- Expanded syntax with "else" block: *ngIf = "condition; else elseBlock" ------------------------->
+            <div class="examples">
+                <h3>Form with an "else" Block:</h3>
+                <p><code>
+                    &lt;div *ngIf="condition; else elseBlock"&gt;Content to render when condition is true.&lt;/div&gt;
+                    <br>
+                    &lt;ng-template #elseBlock&gt;Content to render when condition is false.&lt;/ng-template&gt;
+                </code></p>
+                *ngIf="condition; else elseBlock" example (use above input box):
+                <div style="color: rgb(30, 100, 18); font-size:1.5rem;" *ngIf="ngIfnumber%2==0; else elseBlock">
+                    The Number is Even!
+                </div>
+                <ng-template #elseBlock>
+                    <div style="color: rgb(214, 40, 40); font-size:1.5rem;">Number is Odd!</div>
+                </ng-template>
+            </div>
+            <!------------------- Shorthand syntax with "then" and "else" blocks: *ngIf = "condition; then thenBlock else elseBlock" ------------------------->
+            <div class="examples">
+                <h3>Shorthand Form with "then" and "else" Blocks:</h3>
+                <p><code>
+                    &lt;div *ngIf="condition; then thenBlock else elseBlock"&gt;&lt;/div&gt;
+                    <br> &lt;ng-template #thenBlock&gt;Content to render when condition is true.&lt;/ng-template&gt;
+                    <br> &lt;ng-template #elseBlock&gt;Content to render when condition is false.&lt;/ng-template&gt;
+                </code></p>
+                *ngIf = "condition; then thenBlock else elseBlock":
+                <input type="number" [(ngModel)]="ageInput" placeholder="What is your age?" max="100">
+                <div *ngIf="ageInput < 18; then notElegible else Elegible"></div>
+                <ng-template #notElegible>
+                    <div>You are not eligible to drive the car.</div>
+                </ng-template>
+                <ng-template #Elegible>
+                    <div>You are eligible to drive the car.</div>
+                </ng-template>
+            </div>
+            <!------------------- *ngif to store value locally: *ngIf = "condition as value; else elseBlock" ------------------------->
+            <div class="examples">
+                <h3>Form with Storing the Value Locally:</h3>
+                <p><code>
+                    &lt;div *ngIf="condition as value; else elseBlock"&gt;&#123; &#123; value&#125; &#125; &lt;/div&gt;
+                    <br>&lt;ng-template #elseBlock&gt;Content to render when value is null.&lt;/ng-template&gt;
+                </code></p>
+                Example of Storing value locally using *ngIf:
+                <input type="text" [(ngModel)]="fastival" placeholder="Enter your favorit fastival name."
+                    name="fastival" id="">
+                <div *ngIf="fastival as localValue; else noValue">{{localValue}}</div>
+                <ng-template #noValue>Not found any value to show.</ng-template>
+            </div>
+            <div class="examples">
+                <h3>Inline Template Example:</h3>
+                <p>The <code>*ngIf</code> directive is most commonly used to conditionally show an inline template, as
+                    seen
+                    in
+                    the following example. The default else template is blank.</p>
+                <pre><code>
+                        @Component(&#123;  <!--{-->
+                        selector: 'ng-if-simple',
+                        template: `
+                        &lt;button (click)="show = !show"&gt;&#123; &#123;  show ? 'hide' : 'show' &#125; &#125; &lt;/button&gt;
+                        show = &#123; &#123;  show &#125; &#125; 
+                        &lt;br&gt;
+                        &lt;div *ngIf="show"&gt;Text to show&lt;/div&gt;
+                        `,
+                        &#125; <!--}-->)
+                        export class NgIfSimple &#123;  <!--{-->
+                        show = true;
+                        &#125;  <!--}-->
+                    </code></pre>
+            </div>
+            <div class="examples">
+                <h3>Showing an Alternative Template Using <code>else</code>:</h3>
+                <p>
+                    To display a template when expression evaluates to false, use an <code>else</code> template binding
+                    as
+                    shown in the following example. The <code>else</code> binding points to an
+                    <code>&lt;ng-template&gt;</code>
+                    element labeled <code>#elseBlock</code>. The template can be defined anywhere in the component view,
+                    but
+                    is typically placed right after <code>ngIf</code> for readability.
+                </p>
+                <pre><code>
+                        @Component(&#123;  <!--{-->
+                        selector: 'ng-if-else',
+                        template: `
+                        &lt;button (click)="show = !show"&gt;&#123; &#123;  show ? 'hide' : 'show' &#125; &#125; &lt;/button&gt;
+                        show = &#123; &#123;  show &#125; &#125; 
+                        &lt;br&gt;
+                        &lt;div *ngIf="show; else elseBlock"&gt;Text to show&lt;/div&gt;
+                        &lt;ng-template #elseBlock&gt;Alternate text while primary text is hidden&lt;/ng-template&gt;
+                        `,
+                        &#125;  <!--}-->)
+                        export class NgIfElse &#123;  <!--{-->
+                        show = true;
+                        &#125; <!--}-->
+                    </code></pre>
+            </div>
+        </div>
+        <div class="footer">
+            <a href="https://v17.angular.io/api/common/NgIf" target="_blank">Reference Link</a>
+        </div>
+    </div>
+    <!------------------- *ngSwitchcase ------------------------->
+    <div class="ngSwitchClass topicClass">
+        <div id="ngSwitch">
+            <h2 style="margin: 0;">NgSwitch Directive</h2>
+            <p>
+                The <code>[ngSwitch]</code> directive on a container specifies an expression to match against. The
+                expressions to match are provided by <code>ngSwitchCase</code> directives on views within the container.
+            </p>
+            <ul>
+                <li>Every view that matches is rendered.v
+                <li>If there are no matches, a view with the <code>ngSwitchDefault</code> directive is rendered.</li>
+                <li>Elements within the <code>[NgSwitch]</code> statement but outside of any <code>NgSwitchCase</code>
+                    or <code>ngSwitchDefault</code> directive are preserved at the location.
+                </li>
+            </ul>
+            <h3 style="margin: 0;">Selectors:</h3>
+            <ul style="margin: 0.3rem 0;">
+                <li><code>[NgSwitch]</code></li>
+            </ul>
+            <h3 style="margin: 0; margin-top:1rem;">Directives:</h3>
+            <ul style="margin: 0.3rem 0;">
+                <li>NgSwitchCase</li>
+                <li>NgSwitchDefault</li>
+            </ul>
+        </div>
+        <div class="subClass">
+            <h3>NgSwitch Example:</h3>
+            <div>
+                <h4 style="margin-bottom: 0;">HTML Code:</h4>
+                <code>
+                    &lt;div [ngSwitch]="num"&gt;
+                    <br>&lt;div *ngSwitchCase="'1'"&gt;One&lt;/div&gt;
+                    <br>&lt;div *ngSwitchCase="'2'"&gt;Two&lt;/div&gt;
+                    <br>&lt;div *ngSwitchCase="'3'"&gt;Three&lt;/div&gt;
+                    <br>&lt;div *ngSwitchCase="'4'"&gt;Four&lt;/div&gt;
+                    <br>&lt;div *ngSwitchCase="'5'"&gt;Five&lt;/div&gt;
+                    <br>&lt;div *ngSwitchDefault&gt;Not a valid number&lt;/div&gt;
+                    <br>&lt;/div&gt;
+                </code>
+                <h4 style="margin-bottom: 0;">TS Code:</h4>
+                <code>
+                    export class AppComponent &#123; <!--{-->
+                    num = 2;
+                    &#125; <!--}-->
+                </code>
+            </div>
+            <div id="ngSwitchExample" class="examples">
+                <h4 style="margin: 0.3rem 0;">Check if a Number is Positive, Negative, or Zero</h4>
+                <input type="number" [(ngModel)]="number" (input)="checkNumber()" name="number" id="ngSwitchInputValue"
+                    placeholder="Enter any number">
+                <div [ngSwitch]="result" style="margin: 0.3rem 0;">
+                    <div *ngSwitchCase="'positive'">Number is Positive!</div>
+                    <div *ngSwitchCase="'negative'">Number is Negative!</div>
+                    <div *ngSwitchCase="'zero'">Number is zero!</div>
+                    <div *ngSwitchDefault>Enter a valid number!</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <a href="https://v17.angular.io/api/common/NgSwitch" target="_blank">Reference Link</a>
+        </div>
+
+    </div>
+    <!------------------- *ngFor ------------------------->
+    <div class="ngForClass topicClass">
+        <div class="subClass">
+            <h2 style="margin: 0;">NgFor Directive</h2>
+            <p>
+                *ngFor is used to loop through the dynamic lists in the DOM. Simply, it is used to build data
+                presentation lists and tables in HTML DOM.
+            </p>
+            <h3 style="margin-bottom: 0.2rem;">Syntax:</h3>
+            <code>&lt;element *ngFor = "let item of items"&gt;..&lt;/element&gt;</code>
+            <h3 style="margin-bottom: 0.2rem;">Uses of *ngFor Directive:</h3>
+            <ul>
+                <li><strong>Rendering Lists:</strong> *ngFor is primarily used for rendering lists of items retrieved
+                    from APIs, databases, or local data sources, providing a dynamic and data-driven user interface.
+                </li>
+                <li><strong>Dynamic Table Rows:</strong> *ngFor can be used to generate table rows dynamically based on
+                    the data in the underlying collection, allowing for the creation of dynamic and responsive tables.
+                </li>
+                <li><strong>Iterating Over Object Properties:</strong> *ngFor can iterate over the properties of an
+                    object, allowing you to render key-value pairs dynamically in the UI.</li>
+                <li><strong>Example:</strong> A simple example of *ngFor would be &lt;div *ngFor="let item of
+                    items"&gt;&#123; &#123; item &#125; &#125;&lt;/div&gt;, which displays each item in the items array.
+                </li>
+            </ul>
+            <div id="ngForExample" class="examples">
+                <h3>*ngFor Example:</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Employee Name</th>
+                            <th>Employee Department</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let emp of employees">
+                            <td>{{emp.id}}</td>
+                            <td>{{emp.name}}</td>
+                            <td>{{emp.dept}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="footer">
+            <a href="https://www.geeksforgeeks.org/angular-js/use-of-ngif-and-ngfor-directives-in-angular/"
+                target="_blank">Reference Link: GFG</a>
+            <a style="margin-left: 1rem;" href="https://v17.angular.io/api/common/NgFor" target="_blank">Reference Link:
+                Angular.io</a>
+        </div>
+    </div>
+</div>
